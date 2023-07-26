@@ -1,0 +1,19 @@
+<!-- ingredients_by_type.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ingredients By Type</title>
+</head>
+<body>
+    <h1>Ingredients of type: {{ type }}</h1>
+    <ul>
+        {% if ingredients %}
+            {% for ingredient in ingredients %}
+                <li>{{ ingredient.name }}</li>
+            {% endfor %}
+        {% else %}
+            <li>No ingredients found for this type.</li>
+        {% endif %}
+    </ul>
+</body>
+</html>
