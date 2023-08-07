@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Order Detail</title>
+</head>
+<body>
+    <h2>Order Detail</h2>
+    <p>Order ID: {{ order.id }}</p>
+    
+    <h3>Ingredients:</h3>
+    <ul>
+        <li>Crust: {{ order.dough }}</li>
+        <li>Sauce: {{ order.sauce }}</li>
+        <li>Meat Products: {{ order.meat_products.all|join:", " }}</li>
+        <li>Cheeses: {{ order.cheese.all|join:", " }}</li>
+        <li>Spices: {{ order.spicery.all|join:", " }}</li>
+    </ul>
+    
+    <p>Total Price: ${{ total_price }}</p>
+    <p>Remaining Time: {{ remaining_time }} minutes</p>
+</body>
+</html>

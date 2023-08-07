@@ -16,12 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from ingridients.views import ingredients
-from orders.views import orders
-from ingridients.views import ingredients_by_type
+from ingredients.views import ingredients
+from ingredients.views import ingredients_by_type
+from orders.views import pizza_builder, CreateOrderView, order_detail_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('ingredients/', ingredients),
-    path('orders/', orders),
-    path('ingredients/<str:ingredient_type>/', ingredients_by_type, name='ingredients_by_type')
+    path('ingredients/<str:ingredient_type>/', ingredients_by_type, name='ingredients_by_type'),
+    path('pizza-builder/', pizza_builder, name='pizza-builder'),
+    path('create-order/', CreateOrderView.as_view(), name='create-order'),
+    path('order/<int:order_id>/', order_detail_view, name='order-detail')
 ]

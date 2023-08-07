@@ -1,0 +1,108 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <title>Pizza Builder</title>
+</head>
+<body>
+    <form id="pizzaForm">
+        <h2>Select Ingredients:</h2>
+        <div class="ingredient-group">
+            <h3>Crust:</h3>
+            <ul>
+                {% for ingredient in ingredients %}
+                    {% if ingredient.type == 'Dough' %}
+                        <li>
+                            <input type="radio" name="Dough" value="{{ ingredient.id }}">
+                            {{ ingredient.name }} - Price: ${{ ingredient.price }} - Cooking Time: {{ ingredient.time }} minutes
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <div class="ingredient-group">
+            <h3>Sauces:</h3>
+            <ul>
+                {% for ingredient in ingredients %}
+                    {% if ingredient.type == 'Sauce' %}
+                        <li>
+                            <input type="radio" name="sauce" value="{{ ingredient.id }}">
+                            {{ ingredient.name }} - Price: ${{ ingredient.price }} - Cooking Time: {{ ingredient.time }} minutes
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <div class="ingredient-group">
+            <h3>Meat Products:</h3>
+            <ul>
+                {% for ingredient in ingredients %}
+                    {% if ingredient.type == 'Meat_products' %}
+                        <li>
+                            <input type="checkbox" name="meat_products" value="{{ ingredient.id }}">
+                            {{ ingredient.name }} - Price: ${{ ingredient.price }} - Cooking Time: {{ ingredient.time }} minutes
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <div class="ingredient-group">
+            <h3>Cheeses:</h3>
+            <ul>
+                {% for ingredient in ingredients %}
+                    {% if ingredient.type == 'Cheese' %}
+                        <li>
+                            <input type="checkbox" name="Cheese" value="{{ ingredient.id }}">
+                            {{ ingredient.name }} - Price: ${{ ingredient.price }} - Cooking Time: {{ ingredient.time }} minutes
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <div class="ingredient-group">
+            <h3>Spices:</h3>
+            <ul>
+                {% for ingredient in ingredients %}
+                    {% if ingredient.type == 'Spicery' %}
+                        <li>
+                            <input type="checkbox" name="Spicery" value="{{ ingredient.id }}">
+                            {{ ingredient.name }} - Price: ${{ ingredient.price }} - Cooking Time: {{ ingredient.time }} minutes
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+        
+        <button type="button" id="generateJSON">Generate JSON</button>
+        <textarea id="jsonOutput" rows="10" cols="50" readonly></textarea>
+    </form>
+    
+    <script>
+        document.getElementById("generateJSON").addEventListener("click", function() {
+            var crust = document.querySelector('input[name="Dough"]:checked').value; // Исправлено
+            var sauce = document.querySelector('input[name="sauce"]:checked').value;
+            var meatProducts = Array.from(document.querySelectorAll('input[name="meat_products"]:checked')).map(input => input.value);
+            var cheeses = Array.from(document.querySelectorAll('input[name="Cheese"]:checked')).map(input => input.value); // Исправлено
+            var spices = Array.from(document.querySelectorAll('input[name="Spicery"]:checked')).map(input => input.value); // Исправлено
+    
+            var jsonData = {
+                "dough": crust, // Исправлено
+                "sauce": sauce,
+                "meat_products": meatProducts,
+                "cheese": cheeses,
+                "spicery": spices
+            };
+            
+            document.getElementById("jsonOutput").value = JSON.stringify(jsonData, null, 2);
+        });
+    </script>
+</body>
+</html>
