@@ -18,12 +18,13 @@ from django.contrib import admin
 from django.urls import path
 from ingredients.views import ingredients
 from ingredients.views import ingredients_by_type
-from orders.views import pizza_builder, CreateOrderView, order_detail_view
+from orders.views import pizza_builder, CreateOrderView, order_detail_view, confirm_order
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('ingredients/', ingredients),
     path('ingredients/<str:ingredient_type>/', ingredients_by_type, name='ingredients_by_type'),
     path('pizza-builder/', pizza_builder, name='pizza-builder'),
     path('create-order/', CreateOrderView.as_view(), name='create-order'),
-    path('order/<int:order_id>/', order_detail_view, name='order-detail')
+    path('order/<uuid:order_id>/', order_detail_view, name='order-detail'),
+    path('confirm-order/<uuid:order_id>/', confirm_order, name='confirm_order'),
 ]

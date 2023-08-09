@@ -1,8 +1,10 @@
 from django.db import models
 from ingredients.models import Ingredients
 from django.utils import timezone
+from uuid import uuid4
 
 class Order(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid4, editable = False)
     dough = models.ForeignKey(Ingredients, on_delete=models.CASCADE, related_name='crusts')
     sauce = models.ForeignKey(Ingredients, on_delete=models.CASCADE, related_name='sauces')
     meat_products = models.ManyToManyField(Ingredients, related_name='meat_products')

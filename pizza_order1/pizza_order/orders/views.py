@@ -1,10 +1,11 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, HttpResponse
 from ingredients.models import Ingredients
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Order
 from .serializers import OrderSerializer, IngredientSerializer
+from uuid import UUID
 
 def pizza_builder(request):
     ingredients = Ingredients.objects.all()  # Получите все ингредиенты из базы данных
@@ -46,8 +47,7 @@ class CreateOrderView(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 def order_detail_view(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
-    
+    order = get_object_or_404(Order, id=order_id)    
     # Вычисляем оставшееся время и цену
     remaining_time = order.remaining_time()
     total_price = order.total_price
@@ -59,3 +59,15 @@ def order_detail_view(request, order_id):
     }
     
     return render(request, 'order_detail.html', context)
+
+def confirm_order(request, order_id):
+    try:
+        order = Order.objects.get(pk=order_id)
+        # Здесь можно добавить дополнительную логику, например, отправку подтверждения клиенту
+        
+        order.delete()  # Удаляем заказ из базы данных
+
+    except Order.DoesNotExist:
+        pass
+    return HttpResponse("Your order was succsesfully confirmed!")
+    

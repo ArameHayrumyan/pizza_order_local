@@ -20,6 +20,13 @@
     </ul>
     
     <p>Total Price: ${{ total_price }}</p>
-    <p>Remaining Time: {{ remaining_time }} minutes</p>
+    {% if order.remaining_time == 0 %}
+        <p>Заказ уже готов</p>
+    {% endif %}
+    
+    <form action="{% url 'confirm_order' order.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Confirm order</button>
+    </form>
 </body>
 </html>
